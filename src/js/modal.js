@@ -1,7 +1,9 @@
 import { getExerciseById, rateExercise } from './api.js';
+import { isInFavorites, toggleFavorite } from './favorites.js';
 
 let modalContainer = null;
 let currentExercise = null;
+let toastContainer = null;
 
 export function initModal() {
   modalContainer = document.createElement('div');
@@ -10,9 +12,18 @@ export function initModal() {
   document.body.appendChild(modalContainer);
 
   document.addEventListener('click', async (e) => {
+    // 1) Открытие по кнопке Start (legacy)
     if (e.target.classList.contains('card__btn')) {
       const exerciseId = e.target.dataset.id;
       await openExerciseModal(exerciseId);
+      return;
+    }
+
+    // 2) Открытие по клику на всю карточку упражнения (pixel-perfect)
+    const exerciseCard = e.target.closest('.exercise-card-item[data-id]');
+    if (exerciseCard) {
+      const exerciseId = exerciseCard.dataset.id;
+      if (exerciseId) await openExerciseModal(exerciseId);
     }
   });
 
@@ -25,8 +36,16 @@ export function initModal() {
       openRatingModal();
     }
 
-    if (e.target.classList.contains('modal__add-favorite')) {
-      addToFavorites(currentExercise);
+    const favBtn = e.target.closest && e.target.closest('.modal__add-favorite');
+    if (favBtn && currentExercise) {
+      const { isFavorite } = toggleFavorite(currentExercise);
+
+      // обновляем текст/иконку как в идеале (не закрывая модалку)
+      favBtn.dataset.action = isFavorite ? 'remove' : 'add';
+      favBtn.innerHTML = `
+        ${isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        <span class="modal__fav-icon" aria-hidden="true">${isFavorite ? '♥' : '♡'}</span>
+      `;
     }
   });
 
@@ -42,12 +61,18 @@ export function initModal() {
       closeModal();
     }
   });
+
+  // Toast контейнер (без блокирующих alert)
+  toastContainer = document.createElement('div');
+  toastContainer.className = 'toast-container';
+  document.body.appendChild(toastContainer);
 }
 
 async function openExerciseModal(id) {
   try {
     const exercise = await getExerciseById(id);
     currentExercise = exercise;
+    const isFavorite = isInFavorites(exercise?._id);
 
     modalContainer.innerHTML = `
       <div class="modal">
@@ -94,8 +119,9 @@ async function openExerciseModal(id) {
             <p class="modal__description">${exercise.description || ''}</p>
             
             <div class="modal__actions">
-              <button class="modal__add-favorite">
-                Add to favorites ♡
+              <button class="modal__add-favorite" data-action="${isFavorite ? 'remove' : 'add'}">
+                ${isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                <span class="modal__fav-icon" aria-hidden="true">${isFavorite ? '♥' : '♡'}</span>
               </button>
               <button class="modal__give-rating">
                 Give a rating
@@ -109,7 +135,7 @@ async function openExerciseModal(id) {
     modalContainer.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   } catch (error) {
-    alert('Could not load exercise details');
+    showToast('Could not load exercise details');
   }
 }
 
@@ -192,25 +218,12 @@ async function handleRatingSubmit(form) {
       email: formData.get('email'),
       review: formData.get('review') || ''
     });
-    
-    alert('Thank you for your rating!');
+
+    showToast('Thank you for your rating!');
     closeModal();
   } catch (error) {
-    alert('Failed to submit rating. Please try again.');
+    showToast('Failed to submit rating. Please try again.');
   }
-}
-
-function addToFavorites(exercise) {
-  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-  
-  if (favorites.find(item => item._id === exercise._id)) {
-    alert('Already in favorites');
-    return;
-  }
-  
-  favorites.push(exercise);
-  localStorage.setItem('favorites', JSON.stringify(favorites));
-  alert('Added to favorites!');
 }
 
 function closeModal() {
@@ -218,4 +231,22 @@ function closeModal() {
   modalContainer.style.display = 'none';
   document.body.style.overflow = '';
   currentExercise = null;
+}
+
+function showToast(message) {
+  if (!toastContainer) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add('toast--visible');
+  });
+
+  window.setTimeout(() => {
+    toast.classList.remove('toast--visible');
+    window.setTimeout(() => toast.remove(), 250);
+  }, 2200);
 }

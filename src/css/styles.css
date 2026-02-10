@@ -1,22 +1,12 @@
-/**
-  |============================
-  | Main styles
-  |============================
-*/
-
-
-/* Common styles */
+@import url('./fonts.css');
+@import url('./variables.css');
 @import url('./reset.css');
-@import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
-
-/* Sections */
-@import url('./home.css');
-@import url('./header.css');
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
+@import url('./utilities.css');
+@import url('./topbar.css');
+@import url('./mobile-menu.css');
+@import url('./intro.css');
+@import url('./workouts.css');
 @import url('./footer.css');
-@import url('./modal.css');
+@import url('./modals.css');
+@import url('./scroll-top.css');
+@import url('./favorites.css');

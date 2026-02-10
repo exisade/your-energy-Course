@@ -1,34 +1,62 @@
-<header class="header">
-  <div class="container">
-    <div class="header__inner">
-      <a href="/" class="header__logo">YOUR ENERGY</a>
-      
-      <nav class="header__nav">
-        <a href="/" class="header__nav-link header__nav-link--active">Home</a>
-        <a href="/favorites.html" class="header__nav-link">Favorites</a>
-      </nav>
-
+<aside class="ye-topbar-wrap">
+  <div class="ye-topbar container" id="header__top">
+    <a class="ye-brand header__logo" href="./index.html">
+      <svg width="132" height="24" aria-hidden="true">
+        <use href="./img/sprite.svg#icon-Logo"></use>
+      </svg>
+      <span class="ye-brand-txt header__logo-text">Your Energy</span>
+    </a>
+    <div class="ye-nav-group header__nav">
+      <a id="homeButton" class="ye-nav-item nav-btn" href="./index.html">Home</a>
+      <a id="favoritesButton" class="ye-nav-item nav-btn" href="./favorites.html">Favorites</a>
     </div>
+    <div class="ye-social-row header__socials-list">
+      <a href="#" class="ye-social-link header__socials-link" aria-label="facebook icon">
+        <svg class="header__socials-icon" width="7" height="17"><use href="./img/sprite.svg#icon-facebook"></use></svg>
+      </a>
+      <a href="#" class="ye-social-link header__socials-link" aria-label="instagram icon">
+        <svg class="header__socials-icon" width="24" height="24"><use href="./img/sprite.svg#icon-instagram"></use></svg>
+      </a>
+      <a href="#" class="ye-social-link header__socials-link" aria-label="youtube icon">
+        <svg class="header__socials-icon" width="24" height="24"><use href="./img/sprite.svg#icon-youtube"></use></svg>
+      </a>
+    </div>
+    <button class="ye-mobile-trigger menu-open__button js-open-menu" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open-btn>
+      <svg class="menu-open__icon" width="32" height="32" stroke="var(--color-black)" aria-controls="mobile-menu" role="img">
+        <use class="menu-open__use" href="./img/sprite.svg#icon-align-justify"></use>
+      </svg>
+      <span class="burger-btn">burger</span>
+    </button>
   </div>
-</header>
+</aside>
 
-    <!-- Socials -->
-    <ul class="header-socials">
-      <li>
-        <a href="#" aria-label="Facebook">
-          <img src="./img/svg/facebook-dark.svg" alt="Facebook" />
+<div class="ye-mobile-panel backdrop is-hidden" data-menu-backdrop>
+  <div class="ye-mobile-inner menu-container js-menu-container" id="mobile-menu">
+    <button type="button" class="ye-mobile-close menu-close__button js-close-menu" data-menu-close-btn>
+      <svg class="menu-close__icon" width="32" height="32"><use href="./img/sprite.svg#icon-x-close"></use></svg>
+    </button>
+    <nav class="menu__nav">
+      <ul class="menu__nav-list">
+        <li class="menu__nav-item"><a class="menu__nav-link" href="./index.html">Home</a></li>
+        <li class="menu__nav-item"><a class="menu__nav-link" href="./favorites.html">Favorites</a></li>
+      </ul>
+    </nav>
+    <ul class="menu__socials-list">
+      <li class="menu__socials-item">
+        <a class="menu__socials-link" href="#" aria-label="facebook icon">
+          <svg class="menu__socials-icon" width="7" height="17"><use href="./img/sprite.svg#icon-facebook"></use></svg>
         </a>
       </li>
-      <li>
-        <a href="#" aria-label="Instagram">
-          <img src="./img/svg/instagram-dark.svg" alt="Instagram" />
+      <li class="menu__socials-item">
+        <a class="menu__socials-link" href="#" aria-label="instagram icon">
+          <svg class="menu__socials-icon" width="24" height="24"><use href="./img/sprite.svg#icon-instagram"></use></svg>
         </a>
       </li>
-      <li>
-        <a href="#" aria-label="YouTube">
-          <img src="./img/svg/youtube-dark.svg" alt="YouTube" />
+      <li class="menu__socials-item">
+        <a class="menu__socials-link" href="#" aria-label="youtube icon">
+          <svg class="menu__socials-icon" width="24" height="24"><use href="./img/sprite.svg#icon-youtube"></use></svg>
         </a>
       </li>
     </ul>
   </div>
-</header>
+</div>

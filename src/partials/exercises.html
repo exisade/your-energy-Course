@@ -1,0 +1,61 @@
+<section class="ye-workouts section">
+  <div class="ye-workouts-bar exersices__container container">
+    <h2 class="ye-workouts-heading exersices__title">
+      Exercises<span class="exersices__span hidden"><span>&sol;</span></span>
+      <a class="exersices__text hidden"></a>
+    </h2>
+    <div class="ye-workouts-toolbar exersices__search-btn-wrap">
+      <form class="ye-search-form search__form hidden">
+        <input class="ye-search-field search__input search" type="text" placeholder="Search" />
+        <button class="ye-search-btn search__button" type="button">
+          <svg class="search__icon" width="18" height="18"><use href="./img/sprite.svg#icon-search"></use></svg>
+        </button>
+      </form>
+      <ul class="ye-filter-tabs exersices__list">
+        <li><button class="ye-tab exercises__btn btnFilters active" type="button">Muscles</button></li>
+        <li><button class="ye-tab exercises__btn btnFilters" type="button">Body parts</button></li>
+        <li><button class="ye-tab exercises__btn btnFilters" type="button">Equipment</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ye-workouts-layout quote-filters__container container">
+    <aside class="ye-sidebar aside__container">
+      <ul class="ye-sidebar-list aside__container-list">
+        <li>
+          <div class="ye-quote-box quote__container">
+            <div class="ye-quote-icon aside-svg__circle">
+              <svg class="aside__svg" width="20" height="20"><use href="./img/sprite.svg#icon-pedastrian"></use></svg>
+            </div>
+            <h3 class="quote__title">Quote of the day</h3>
+            <svg class="aside__commas-svg"><use href="./img/sprite.svg#icon-inverted-commas"></use></svg>
+            <div class="aside-quote__wrapper js-quote">
+              <p></p>
+              <span class="quote__author-name"></span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="ye-sidebar-img"></div>
+        </li>
+        <li>
+          <div class="aside__white-card">
+            <div class="white-card-svg__wrapper">
+              <svg class="aside__white-card-svg" width="20" height="20"><use href="./img/sprite.svg#icon-gym"></use></svg>
+            </div>
+            <h3 class="aside__white-card-title">110 min</h3>
+            <h4 class="aside__white-card-subtitle">Daily norm of sports</h4>
+            <p class="aside__white-card-text">
+              The World Health Organization recommends at least 150 minutes of moderate-intensity aerobic physical activity throughout the week for adults aged 18-64. However, what happens if we adjust that number to 110 minutes every day? While it might seem like a high number to hit, dedicating 110 minutes daily to sporting activities may offer unparalleled benefits to physical health, mental well-being, and overall quality of life.
+            </p>
+          </div>
+        </li>
+      </ul>
+    </aside>
+
+    <div class="ye-workouts-main filters__container">
+      <ul class="ye-cards-list filters__list js-list"></ul>
+      <div id="pagination-numbers" class="pagination"></div>
+    </div>
+  </div>
+</section>

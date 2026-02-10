@@ -1,0 +1,134 @@
+.ye-topbar-wrap { width: 100%; }
+
+.ye-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0 80px;
+}
+
+@media (min-width: 768px) {
+  .ye-topbar {
+    grid-template-columns: auto 1fr auto;
+    padding: 24px 0 100px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .ye-topbar { padding: 28px 9px 96px; }
+}
+
+.ye-brand {
+  display: inline-flex;
+  align-items: center;
+  transition: var(--ye-ease);
+}
+
+.ye-brand:hover,
+.ye-brand:focus {
+  transform: scale(1.1);
+  outline: none;
+}
+
+.ye-brand-txt,
+.header__logo-text { display: none; }
+
+.ye-nav-group,
+.header__nav { display: none; }
+
+@media (min-width: 768px) {
+  .ye-nav-group,
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 233px;
+    padding: 8px 50px;
+    border-radius: 60px;
+    background: var(--ye-black);
+    justify-self: center;
+  }
+}
+
+.ye-nav-item,
+.nav-btn {
+  padding: 6px 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 30px;
+  color: var(--ye-white);
+  transition: var(--ye-ease);
+}
+
+.ye-nav-item:hover:not(.active),
+.nav-btn:hover:not(.active) {
+  color: var(--ye-black);
+  background: var(--ye-white);
+}
+
+.ye-nav-item.active,
+.nav-btn.active {
+  color: var(--ye-black);
+  background: var(--ye-white);
+}
+
+.ye-social-row,
+.header__socials-list { display: none; }
+
+@media (min-width: 768px) {
+  .ye-social-row,
+  .header__socials-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.ye-social-link,
+.header__socials-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid rgba(36, 36, 36, 0.1);
+  border-radius: 10px;
+  transition: var(--ye-ease);
+}
+
+.header__socials-icon { fill: rgba(36, 36, 36, 0.8); }
+
+.ye-social-link:hover .header__socials-icon,
+.ye-social-link:focus .header__socials-icon,
+.header__socials-link:hover .header__socials-icon,
+.header__socials-link:focus .header__socials-icon {
+  stroke: var(--ye-white);
+  fill: var(--ye-white);
+}
+
+.ye-social-link:hover,
+.ye-social-link:focus,
+.header__socials-link:hover,
+.header__socials-link:focus {
+  background: rgba(36, 36, 36, 0.8);
+}
+
+.ye-mobile-trigger,
+.menu-open__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .ye-mobile-trigger,
+  .menu-open__button { display: none; }
+}
+
+.burger-btn { display: none; }

@@ -1,16 +1,39 @@
+// quote.js
 import { getQuote } from './api.js';
 
-const quoteText = document.querySelector('.quote__text');
-const quoteAuthor = document.querySelector('.quote__author');
+// Поддерживаем цитату одновременно на главной и на странице избранного
+// (оба блока имеют одинаковую структуру текста и автора)
+const quoteTextEls = document.querySelectorAll(
+  '.quote__container p, .favorite-quote__wrapper p'
+);
+const quoteAuthorEls = document.querySelectorAll('.quote__author-name');
+
+const FALLBACK_TEXT =
+  'The only bad workout is the one that didn’t happen.';
+const FALLBACK_AUTHOR = 'Unknown';
 
 export async function renderQuote() {
-  if (!quoteText) return;
+  if (!quoteTextEls.length || !quoteAuthorEls.length) return;
 
   try {
     const data = await getQuote();
-    quoteText.textContent = data.quote;
-    quoteAuthor.textContent = `— ${data.author}`;
-  } catch (error) {
-    quoteText.textContent = 'Could not load quote';
+
+    if (!data || !data.quote) {
+      throw new Error('Empty quote');
+    }
+
+    quoteTextEls.forEach(node => {
+      node.textContent = data.quote;
+    });
+    quoteAuthorEls.forEach(node => {
+      node.textContent = data.author || FALLBACK_AUTHOR;
+    });
+  } catch (e) {
+    quoteTextEls.forEach(node => {
+      node.textContent = FALLBACK_TEXT;
+    });
+    quoteAuthorEls.forEach(node => {
+      node.textContent = FALLBACK_AUTHOR;
+    });
   }
 }

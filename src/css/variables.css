@@ -1,0 +1,45 @@
+:root {
+  --ye-black: #242424;
+  --ye-white: #f4f4f4;
+  --ye-white-solid: #ffffff;
+  --ye-gray: #d4d4d4;
+  --ye-gray-muted: #c6cdd1;
+  --ye-amber: #eea10c;
+  --ye-valid: #4dc274;
+  --ye-invalid: #ee323d;
+  --ye-ease: 750ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* color aliases */
+  --color-black: var(--ye-black);
+  --color-white: var(--ye-white);
+  --color-white-secondary: var(--ye-white-solid);
+  --color-light-grey: var(--ye-gray);
+  --color-light-grey-secondary: var(--ye-gray-muted);
+  --color-yellow: var(--ye-amber);
+  --color-valid: var(--ye-valid);
+  --color-invalid: var(--ye-invalid);
+  --transition-dur-and-func: var(--ye-ease);
+
+  /* layout spacing */
+  --ye-section-padding-sm: 56px;
+  --ye-section-padding-md: 88px;
+  --ye-section-padding-lg: 132px;
+  /* generic section padding token for most blocks */
+  --ye-section-padding: var(--ye-section-padding-md);
+
+  /* base radii */
+  --ye-radius-sm: 18px;
+  --ye-radius-md: 24px;
+  --ye-radius-lg: 36px;
+
+  /* component radii (aliased to base) */
+  --ye-radius-card-sm: var(--ye-radius-sm);
+  --ye-radius-card-md: var(--ye-radius-md);
+  --ye-radius-card-lg: var(--ye-radius-lg);
+
+  /* gaps */
+  --ye-gap-xs: 8px;
+  --ye-gap-sm: 16px;
+  --ye-gap-md: 24px;
+  --ye-gap-lg: 32px;
+}

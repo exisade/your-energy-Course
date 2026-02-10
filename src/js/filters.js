@@ -1,6 +1,6 @@
 import { getFilters } from './api.js';
 
-const filtersContainer = document.querySelector('.filters');
+const filtersContainer = document.querySelector('.exersices__list');
 let activeFilter = 'Muscles';
 let onFilterChangeCallback = null;
 
@@ -9,16 +9,17 @@ export function initFilters(callback) {
 
   onFilterChangeCallback = callback;
 
-  filtersContainer.addEventListener('click', async (e) => {
-    if (!e.target.classList.contains('filters__btn')) return;
+  filtersContainer.addEventListener('click', e => {
+    const btn = e.target.closest('.btnFilters');
+    if (!btn) return;
 
-    filtersContainer.querySelectorAll('.filters__btn').forEach((btn) => {
-      btn.classList.remove('filters__btn--active');
-    });
+    filtersContainer
+      .querySelectorAll('.btnFilters')
+      .forEach(b => b.classList.remove('active'));
 
-    e.target.classList.add('filters__btn--active');
+    btn.classList.add('active');
 
-    activeFilter = e.target.textContent.trim();
+    activeFilter = btn.textContent.trim();
 
     if (onFilterChangeCallback) {
       onFilterChangeCallback(activeFilter);

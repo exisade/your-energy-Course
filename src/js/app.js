@@ -5,6 +5,7 @@ import { initSearch } from './search.js';
 import { initPagination } from './pagination.js';
 import { initModal } from './modal.js';
 import { initSubscription } from './subscription.js';
+import './favorites-page.js';
 
 function init() {
   renderQuote();

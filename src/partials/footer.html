@@ -1,64 +1,47 @@
-<footer class="footer">
-  <div class="footer__container">
-
-    <!-- LEFT -->
-    <div class="footer__brand">
-      <img
-        src="/img/svg/logo-light.svg"
-        alt="Your Energy"
-        class="footer__logo"
-      />
-
-      <ul class="footer__socials">
+<footer class="ye-site-footer footer__background">
+  <div class="ye-footer-inner footer__container container">
+    <div class="ye-footer-brand footer__left-wrap">
+      <a class="logo ye-footer-logo" id="logo" href="./index.html">
+        <svg class="footer__logo logo" width="132" height="24" aria-label="scroll down icon">
+          <use href="./img/sprite.svg#icon-logo"></use>
+        </svg>
+      </a>
+      <ul class="ye-footer-socials socials__list">
         <li>
-          <a href="#" class="footer__social-link">
-            <img src="/img/svg/facebook-light.svg" alt="Facebook">
+          <a class="socials__link link ye-social-link" href="#" aria-label="facebook icon">
+            <svg class="socials__icon socials__icon-footer" width="7" height="17"><use href="./img/sprite.svg#icon-facebook"></use></svg>
           </a>
         </li>
         <li>
-          <a href="#" class="footer__social-link">
-            <img src="/img/svg/instagram-light.svg" alt="Instagram">
+          <a class="socials__link link ye-social-link" href="#" aria-label="instagram icon">
+            <svg class="socials__icon socials__icon-footer" width="24" height="24"><use href="./img/sprite.svg#icon-instagram"></use></svg>
           </a>
         </li>
         <li>
-          <a href="#" class="footer__social-link">
-            <img src="/img/svg/youtube-light.svg" alt="YouTube">
+          <a class="socials__link link ye-social-link" href="#" aria-label="youtube icon">
+            <svg class="socials__icon socials__icon-footer" width="24" height="24"><use href="./img/sprite.svg#icon-youtube"></use></svg>
           </a>
         </li>
       </ul>
-
-      <p class="footer__copyright">
-        Your Energy. All rights reserved.
-      </p>
     </div>
-
-    <!-- CENTER -->
-    <div class="footer__message">
-      Transforming your <span>body</span> shape with us
-      <div class="footer__legal">
-        <a href="#">Privacy Policy</a> / <a href="#">Terms of Service</a>
+    <div class="ye-footer-cta footer__right-wrap">
+      <h2 class="ye-footer-heading footer__title">
+        Transforming your <span class="accent-text">body</span> shape with us
+      </h2>
+      <form class="ye-subscribe-form subscribe__form footer-form" id="subscribeForm">
+        <h3 class="subscribe__form-title">Subscribe and learn about new exercises!</h3>
+        <input class="ye-subscribe-input subscribe__form-input footer-input" type="email" name="email" placeholder="Email" required />
+        <button class="ye-subscribe-btn subscribe__form-btn" type="submit" id="subscribeBtn">Send</button>
+      </form>
+    </div>
+    <div class="ye-footer-legal footer__text-outer-wrap">
+      <div>
+        <p class="footer__text">Your Energy. All rights reserved.</p>
+      </div>
+      <div class="footer__text-inner-wrap">
+        <p class="footer__text privacy-policy__text"><span>Privacy Policy</span><span>&sol;</span><span>Terms of Service</span></p>
+        <p class="footer__text">©2023</p>
       </div>
     </div>
-
-    <!-- RIGHT -->
-<div class="footer__subscribe footer-right">
-  <p class="footer__subscribe-title">
-    Subscribe and learn about new exercises!
-  </p>
-
-  <form class="footer-form">
-    <input
-      type="email"
-      class="footer-input"
-      placeholder="Email"
-      required
-    />
-    <button type="submit" class="footer-button">
-      Send
-    </button>
-  </form>
-
-  <span class="footer__year">©2023</span>
-</div>
-
+  </div>
 </footer>
