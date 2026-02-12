@@ -66,14 +66,6 @@ frontend-фреймворків. Архітектура побудована з�
 -   CSS Grid + Flexbox
 -   Оптимізація під великі екрани
 
-------------------------------------------------------------------------
-
-## 🔌 API
-
-Base URL: https://your-energy.b.goit.study/api
-
-Endpoints: - GET /filters - GET /exercises - GET /exercises/:id - PATCH
-/exercises/:id/rating - GET /quote - POST /subscription
 
 ------------------------------------------------------------------------
 
