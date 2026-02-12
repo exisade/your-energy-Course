@@ -4,23 +4,42 @@ import { updatePaginationData } from './pagination.js';
 
 const cardsContainer = document.querySelector('.filters__list.js-list');
 const searchWrapper = document.querySelector('.search__form');
+const searchInput = document.querySelector('.search__input');
+const searchButton = document.querySelector('.search__button');
 const exercisesTitleEl = document.querySelector('.exersices__title');
+
+const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
+const MOBILE_PAGE_LIMIT = 9;
+const DEFAULT_PAGE_LIMIT = 12;
 
 let currentPage = 1;
 let currentFilter = 'Muscles';
 let currentKeyword = '';
 let selectedCategory = null;
 let mode = 'categories';
+let isMobileViewport = window.matchMedia(MOBILE_MEDIA_QUERY).matches;
+let resizeTimerId = null;
 
 // ===== UI =====
 function showSearch() {
-  if (searchWrapper) searchWrapper.style.display = 'block';
+  if (!searchWrapper) return;
+
+  searchWrapper.classList.remove('hidden');
+  searchWrapper.setAttribute('aria-hidden', 'false');
+  if (searchInput) searchInput.disabled = false;
+  if (searchButton) searchButton.disabled = false;
 }
 
 function hideSearch() {
-  if (searchWrapper) searchWrapper.style.display = 'none';
-  const input = document.querySelector('.search__input');
-  if (input) input.value = '';
+  if (!searchWrapper) return;
+
+  searchWrapper.classList.add('hidden');
+  searchWrapper.setAttribute('aria-hidden', 'true');
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.disabled = true;
+  }
+  if (searchButton) searchButton.disabled = true;
   currentKeyword = '';
 }
 
@@ -39,6 +58,18 @@ function updateExercisesTitle() {
   }
 
   exercisesTitleEl.textContent = 'Exercises';
+}
+
+function getPageLimit() {
+  return isMobileViewport ? MOBILE_PAGE_LIMIT : DEFAULT_PAGE_LIMIT;
+}
+
+function renderStateMessage(message) {
+  if (!cardsContainer) return;
+
+  cardsContainer.innerHTML = `
+    <li class="filters__state">${message}</li>
+  `;
 }
 
 // ===== MAIN =====
@@ -63,11 +94,15 @@ async function renderCategories() {
   }
 
   try {
-    const data = await getFilters(currentFilter);
+    const data = await getFilters({
+      filter: currentFilter,
+      page: currentPage,
+      limit: getPageLimit(),
+    });
     const results = data.results || [];
 
     if (!results.length) {
-      cardsContainer.innerHTML = '';
+      renderStateMessage('No categories found for this filter.');
       updatePaginationData(1, 1);
       return;
     }
@@ -86,10 +121,10 @@ async function renderCategories() {
       )
       .join('');
 
-    updatePaginationData(1, data.totalPages || 1);
+    updatePaginationData(currentPage, data.totalPages || 1);
   } catch (e) {
     console.error(e);
-    cardsContainer.innerHTML = '';
+    renderStateMessage('Unable to load categories. Please try again.');
   }
 }
 
@@ -106,7 +141,7 @@ async function renderExercisesList() {
   try {
     const params = {
       page: currentPage,
-      limit: 10,
+      limit: getPageLimit(),
     };
 
     const filterParam = getParamName();
@@ -120,7 +155,7 @@ async function renderExercisesList() {
     const results = data.results || [];
 
     if (!results.length) {
-      cardsContainer.innerHTML = '';
+      renderStateMessage('No exercises found for this request.');
       updatePaginationData(1, 1);
       return;
     }
@@ -132,7 +167,7 @@ async function renderExercisesList() {
     updatePaginationData(currentPage, data.totalPages || 1);
   } catch (e) {
     console.error(e);
-    cardsContainer.innerHTML = '';
+    renderStateMessage('Unable to load exercises. Please try again.');
   }
 }
 
@@ -154,7 +189,7 @@ function createExerciseCardMarkup(ex) {
               <use href="./img/sprite.svg#icon-star-rating"></use>
             </svg>
           </span>
-          <button class="card__btn" data-id="${ex._id}">
+          <button class="card__btn" type="button" data-id="${ex._id}">
             Start
             <svg class="card__btn-arrow" width="16" height="16">
               <use href="./img/sprite.svg#icon-arrow"></use>
@@ -210,8 +245,8 @@ document.addEventListener('click', e => {
     return;
   }
 
-  const card = e.target.closest('.filters__item');
-  if (!card || !card.dataset.category) return;
+  const card = e.target.closest('.filters__item[data-category]');
+  if (!card || !card.dataset.category || mode !== 'categories') return;
 
   selectedCategory = card.dataset.category;
   currentPage = 1;
@@ -231,15 +266,36 @@ export function updateFilter(filter) {
 }
 
 export function updateKeyword(keyword) {
-  if (!selectedCategory) return;
+  if (!selectedCategory || mode !== 'exercises') return;
 
-  currentKeyword = keyword.trim().toLowerCase();
+  const normalizedKeyword = keyword.trim().toLowerCase();
+  if (normalizedKeyword === currentKeyword) return;
+
+  currentKeyword = normalizedKeyword;
   currentPage = 1;
   mode = 'exercises';
   renderExercises();
 }
 
 export function updatePage(page) {
+  if (!Number.isFinite(page) || page < 1) return;
+
   currentPage = page;
   renderExercises();
+}
+
+function handleViewportResize() {
+  const nextIsMobile = window.matchMedia(MOBILE_MEDIA_QUERY).matches;
+  if (nextIsMobile === isMobileViewport) return;
+
+  isMobileViewport = nextIsMobile;
+  currentPage = 1;
+  renderExercises();
+}
+
+if (cardsContainer) {
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimerId);
+    resizeTimerId = window.setTimeout(handleViewportResize, 150);
+  });
 }

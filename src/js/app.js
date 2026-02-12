@@ -5,6 +5,7 @@ import { initSearch } from './search.js';
 import { initPagination } from './pagination.js';
 import { initModal } from './modal.js';
 import { initSubscription } from './subscription.js';
+import { initMobileMenu } from './mobile-menu.js';
 import './favorites-page.js';
 
 function init() {
@@ -19,6 +20,7 @@ function init() {
   initPagination();
   initModal();
   initSubscription();
+  initMobileMenu();
 }
 
 init();

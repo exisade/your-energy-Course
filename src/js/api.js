@@ -8,8 +8,15 @@ export async function getQuote() {
 }
 
 // ===== FILTERS =====
-export async function getFilters(filter) {
-  const params = new URLSearchParams({ filter });
+export async function getFilters({ filter, page = 1, limit = 10 } = {}) {
+  if (!filter) throw new Error('Filter is required');
+
+  const params = new URLSearchParams({
+    filter,
+    page: String(page),
+    limit: String(limit),
+  });
+
   const res = await fetch(`${BASE_URL}/filters?${params}`);
   if (!res.ok) throw new Error('Failed to fetch filters');
   return res.json();
@@ -63,6 +70,22 @@ export async function subscribe(email) {
     body: JSON.stringify({ email }),
   });
 
-  if (!res.ok) throw new Error('Failed to subscribe');
+  if (!res.ok) {
+    let message = 'Failed to subscribe';
+
+    try {
+      const errorData = await res.json();
+      if (errorData?.message) {
+        message = errorData.message;
+      }
+    } catch {
+      // Keep fallback message if response body is not JSON.
+    }
+
+    const error = new Error(message);
+    error.status = res.status;
+    throw error;
+  }
+
   return res.json();
 }

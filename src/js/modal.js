@@ -5,127 +5,136 @@ let modalContainer = null;
 let currentExercise = null;
 let toastContainer = null;
 
+function getFavoriteIconEntity(isFavorite) {
+  return isFavorite ? '&#9829;' : '&#9825;';
+}
+
 export function initModal() {
   modalContainer = document.createElement('div');
   modalContainer.className = 'modal-overlay';
   modalContainer.style.display = 'none';
   document.body.appendChild(modalContainer);
 
-  document.addEventListener('click', async (e) => {
-    // 1) Открытие по кнопке Start (legacy)
-    if (e.target.classList.contains('card__btn')) {
-      const exerciseId = e.target.dataset.id;
-      await openExerciseModal(exerciseId);
+  document.addEventListener('click', async event => {
+    const startBtn = event.target.closest('.card__btn[data-id]');
+    if (startBtn) {
+      await openExerciseModal(startBtn.dataset.id);
       return;
     }
 
-    // 2) Открытие по клику на всю карточку упражнения (pixel-perfect)
-    const exerciseCard = e.target.closest('.exercise-card-item[data-id]');
+    const exerciseCard = event.target.closest('.exercise-card-item[data-id]');
     if (exerciseCard) {
-      const exerciseId = exerciseCard.dataset.id;
-      if (exerciseId) await openExerciseModal(exerciseId);
+      await openExerciseModal(exerciseCard.dataset.id);
     }
   });
 
-  modalContainer.addEventListener('click', (e) => {
-    if (e.target === modalContainer || e.target.classList.contains('modal__close')) {
+  modalContainer.addEventListener('click', event => {
+    if (event.target === modalContainer || event.target.closest('.modal__close')) {
       closeModal();
+      return;
     }
 
-    if (e.target.classList.contains('modal__give-rating')) {
+    if (event.target.closest('.modal__give-rating')) {
       openRatingModal();
+      return;
     }
 
-    const favBtn = e.target.closest && e.target.closest('.modal__add-favorite');
-    if (favBtn && currentExercise) {
+    const favoriteBtn = event.target.closest('.modal__add-favorite');
+    if (favoriteBtn && currentExercise) {
       const { isFavorite } = toggleFavorite(currentExercise);
-
-      // обновляем текст/иконку как в идеале (не закрывая модалку)
-      favBtn.dataset.action = isFavorite ? 'remove' : 'add';
-      favBtn.innerHTML = `
+      favoriteBtn.dataset.action = isFavorite ? 'remove' : 'add';
+      favoriteBtn.innerHTML = `
         ${isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-        <span class="modal__fav-icon" aria-hidden="true">${isFavorite ? '♥' : '♡'}</span>
+        <span class="modal__fav-icon" aria-hidden="true">${getFavoriteIconEntity(isFavorite)}</span>
       `;
     }
   });
 
-  modalContainer.addEventListener('submit', async (e) => {
-    if (e.target.classList.contains('rating-form')) {
-      e.preventDefault();
-      await handleRatingSubmit(e.target);
-    }
+  modalContainer.addEventListener('submit', async event => {
+    if (!event.target.classList.contains('rating-form')) return;
+    event.preventDefault();
+    await handleRatingSubmit(event.target);
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalContainer.style.display === 'flex') {
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modalContainer.style.display === 'flex') {
       closeModal();
     }
   });
 
-  // Toast контейнер (без блокирующих alert)
   toastContainer = document.createElement('div');
   toastContainer.className = 'toast-container';
   document.body.appendChild(toastContainer);
 }
 
 async function openExerciseModal(id) {
+  if (!id) return;
+
   try {
     const exercise = await getExerciseById(id);
     currentExercise = exercise;
     const isFavorite = isInFavorites(exercise?._id);
+    const ratingValue = Number(exercise?.rating || 0).toFixed(1);
 
     modalContainer.innerHTML = `
       <div class="modal">
-        <button class="modal__close">&times;</button>
+        <button type="button" class="modal__close" aria-label="Close modal">&times;</button>
         
         <div class="modal__content">
           <div class="modal__image">
-            ${exercise.gifUrl ? `<img src="${exercise.gifUrl}" alt="${exercise.name}" loading="lazy" />` : ''}
+            ${
+              exercise.gifUrl
+                ? `<img src="${exercise.gifUrl}" alt="${exercise.name}" loading="lazy" />`
+                : ''
+            }
           </div>
           
           <div class="modal__info">
             <h2 class="modal__title">${exercise.name}</h2>
             
             <div class="modal__rating-display">
-              <span class="modal__rating-value">${exercise.rating}</span>
-              <div class="modal__stars">
+              <span class="modal__rating-value">${ratingValue}</span>
+              <div class="modal__stars" role="img" aria-label="Rating ${ratingValue} out of 5">
                 ${renderStars(exercise.rating)}
               </div>
             </div>
-            
-            <div class="modal__details">
-              <div class="modal__detail">
-                <span class="modal__detail-label">Target</span>
-                <span class="modal__detail-value">${exercise.target}</span>
+
+            <div class="modal__divider"></div>
+
+            <div class="modal__facts-grid">
+              <div class="modal__fact">
+                <span class="modal__fact-label">Target</span>
+                <span class="modal__fact-value">${exercise.target || 'N/A'}</span>
               </div>
-              <div class="modal__detail">
-                <span class="modal__detail-label">Body Part</span>
-                <span class="modal__detail-value">${exercise.bodyPart}</span>
+              <div class="modal__fact">
+                <span class="modal__fact-label">Body Part</span>
+                <span class="modal__fact-value">${exercise.bodyPart || 'N/A'}</span>
               </div>
-              <div class="modal__detail">
-                <span class="modal__detail-label">Equipment</span>
-                <span class="modal__detail-value">${exercise.equipment}</span>
+              <div class="modal__fact">
+                <span class="modal__fact-label">Equipment</span>
+                <span class="modal__fact-value">${exercise.equipment || 'N/A'}</span>
               </div>
-              <div class="modal__detail">
-                <span class="modal__detail-label">Popular</span>
-                <span class="modal__detail-value">${exercise.popularity || 'N/A'}</span>
-              </div>
-              <div class="modal__detail">
-                <span class="modal__detail-label">Burned Calories</span>
-                <span class="modal__detail-value">${exercise.burnedCalories} /${exercise.time} min</span>
+              <div class="modal__fact">
+                <span class="modal__fact-label">Popular</span>
+                <span class="modal__fact-value">${exercise.popularity || 'N/A'}</span>
               </div>
             </div>
+
+            <div class="modal__fact modal__fact--burned">
+              <span class="modal__fact-label">Burned calories</span>
+              <span class="modal__fact-value">${exercise.burnedCalories || 'N/A'}/${exercise.time || 'N/A'} min</span>
+            </div>
+
+            <div class="modal__divider"></div>
             
             <p class="modal__description">${exercise.description || ''}</p>
             
             <div class="modal__actions">
-              <button class="modal__add-favorite" data-action="${isFavorite ? 'remove' : 'add'}">
+              <button type="button" class="modal__add-favorite" data-action="${isFavorite ? 'remove' : 'add'}">
                 ${isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                <span class="modal__fav-icon" aria-hidden="true">${isFavorite ? '♥' : '♡'}</span>
+                <span class="modal__fav-icon" aria-hidden="true">${getFavoriteIconEntity(isFavorite)}</span>
               </button>
-              <button class="modal__give-rating">
-                Give a rating
-              </button>
+              <button type="button" class="modal__give-rating">Give a rating</button>
             </div>
           </div>
         </div>
@@ -134,7 +143,7 @@ async function openExerciseModal(id) {
 
     modalContainer.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-  } catch (error) {
+  } catch {
     showToast('Could not load exercise details');
   }
 }
@@ -144,7 +153,7 @@ function openRatingModal() {
 
   modalContainer.innerHTML = `
     <div class="modal modal--rating">
-      <button class="modal__close">&times;</button>
+      <button type="button" class="modal__close" aria-label="Close modal">&times;</button>
       
       <h3 class="modal__rating-title">Rating</h3>
       
@@ -153,29 +162,29 @@ function openRatingModal() {
           <span class="rating-value">0.0</span>
           <div class="rating-stars-input">
             <input type="radio" name="rate" value="1" id="star1" required>
-            <label for="star1">☆</label>
+            <label for="star1">&#9734;</label>
             <input type="radio" name="rate" value="2" id="star2">
-            <label for="star2">☆</label>
+            <label for="star2">&#9734;</label>
             <input type="radio" name="rate" value="3" id="star3">
-            <label for="star3">☆</label>
+            <label for="star3">&#9734;</label>
             <input type="radio" name="rate" value="4" id="star4">
-            <label for="star4">☆</label>
+            <label for="star4">&#9734;</label>
             <input type="radio" name="rate" value="5" id="star5">
-            <label for="star5">☆</label>
+            <label for="star5">&#9734;</label>
           </div>
         </div>
         
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="Email" 
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
           class="rating-email"
-          required 
+          required
         />
         
-        <textarea 
-          name="review" 
-          placeholder="Your comment" 
+        <textarea
+          name="review"
+          placeholder="Your comment"
           class="rating-comment"
           rows="4"
         ></textarea>
@@ -187,25 +196,60 @@ function openRatingModal() {
 
   const ratingInputs = modalContainer.querySelectorAll('input[name="rate"]');
   const ratingValue = modalContainer.querySelector('.rating-value');
-  
+
   ratingInputs.forEach(input => {
-    input.addEventListener('change', (e) => {
-      ratingValue.textContent = `${e.target.value}.0`;
+    input.addEventListener('change', event => {
+      ratingValue.textContent = `${event.target.value}.0`;
     });
   });
 }
 
 function renderStars(rating) {
-  const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-  
-  let stars = '';
-  for (let i = 0; i < fullStars; i++) stars += '★';
-  if (halfStar) stars += '⯨';
-  for (let i = 0; i < emptyStars; i++) stars += '☆';
-  
-  return stars;
+  const value = Number(rating) || 0;
+  const boundedValue = Math.min(Math.max(value, 0), 5);
+  const fullStars = Math.floor(boundedValue);
+  const fraction = boundedValue - fullStars;
+  const hasHalfStar = fraction >= 0.25 && fraction < 0.75;
+  const roundedStars = fraction >= 0.75 ? fullStars + 1 : fullStars;
+
+  let starsMarkup = '';
+
+  for (let index = 0; index < 5; index += 1) {
+    if (index < roundedStars && (!hasHalfStar || index < fullStars)) {
+      starsMarkup += `
+        <span class="modal__star modal__star--full" aria-hidden="true">
+          <svg width="18" height="18">
+            <use href="./img/sprite.svg#icon-star-rating"></use>
+          </svg>
+        </span>
+      `;
+      continue;
+    }
+
+    if (index === fullStars && hasHalfStar) {
+      starsMarkup += `
+        <span class="modal__star modal__star--half" aria-hidden="true">
+          <svg class="modal__star-base" width="18" height="18">
+            <use href="./img/sprite.svg#icon-star-rating"></use>
+          </svg>
+          <svg class="modal__star-fill" width="18" height="18">
+            <use href="./img/sprite.svg#icon-star-rating"></use>
+          </svg>
+        </span>
+      `;
+      continue;
+    }
+
+    starsMarkup += `
+      <span class="modal__star modal__star--empty" aria-hidden="true">
+        <svg width="18" height="18">
+          <use href="./img/sprite.svg#icon-star-rating"></use>
+        </svg>
+      </span>
+    `;
+  }
+
+  return starsMarkup;
 }
 
 async function handleRatingSubmit(form) {
@@ -216,12 +260,12 @@ async function handleRatingSubmit(form) {
     await rateExercise(exerciseId, {
       rate: Number(formData.get('rate')),
       email: formData.get('email'),
-      review: formData.get('review') || ''
+      review: formData.get('review') || '',
     });
 
     showToast('Thank you for your rating!');
     closeModal();
-  } catch (error) {
+  } catch {
     showToast('Failed to submit rating. Please try again.');
   }
 }
