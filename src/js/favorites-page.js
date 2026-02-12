@@ -28,7 +28,7 @@ function renderFavoritesList(favorites) {
   listEl.innerHTML = favorites
     .map(
       ex => {
-        const rating = (ex.rating || 0).toFixed(1);
+        const rating = (ex.rating || 0).toFixed(2);
         const burned = ex.burnedCalories ?? '--';
         const time = ex.time ?? '--';
         const bodyPart = ex.bodyPart || '';
@@ -64,17 +64,16 @@ function renderFavoritesList(favorites) {
 
               <div class="card__block-info">
                 <p class="card__text-info">
-                  <span>Burned calories:</span>
-                  ${burned} / ${time} min
+                  <span>Burned calories:</span>${burned} / ${time} min
                 </p>
                 ${
                   bodyPart
-                    ? `<p class="card__text-info"><span>Body part:</span> ${bodyPart}</p>`
+                    ? `<p class="card__text-info"><span>Body part:</span>${bodyPart}</p>`
                     : ''
                 }
                 ${
                   target
-                    ? `<p class="card__text-info"><span>Target:</span> ${target}</p>`
+                    ? `<p class="card__text-info"><span>Target:</span>${target}</p>`
                     : ''
                 }
               </div>

@@ -1,43 +1,53 @@
 :root {
-  --ye-black: #242424;
-  --ye-white: #f4f4f4;
-  --ye-white-solid: #ffffff;
+  --font-family: 'DM Sans', sans-serif;
+  --color-light: #f4f4f4;
+  --color-dark: #242424;
+  --color-block-light: #ffffff;
+  --color-muted: rgba(36, 36, 36, 0.6);
+  --color-muted-strong: rgba(36, 36, 36, 0.4);
+  --color-white-muted: rgba(244, 244, 244, 0.6);
+  --color-white-soft: rgba(255, 255, 255, 0.3);
+  --color-warning: #eea10c;
+  --color-valid: #4dc274;
+  --color-invalid: #e6533c;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --radius-sm: 8px;
+  --radius-md: 20px;
+  --radius-pill: 30px;
+  --container-max-width: 1376px;
+  --transition-base: 250ms ease;
+  --ye-black: var(--color-dark);
+  --ye-white: var(--color-light);
+  --ye-white-solid: var(--color-block-light);
   --ye-gray: #d4d4d4;
   --ye-gray-muted: #c6cdd1;
-  --ye-amber: #eea10c;
-  --ye-valid: #4dc274;
-  --ye-invalid: #ee323d;
-  --ye-ease: 750ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* color aliases */
-  --color-black: var(--ye-black);
-  --color-white: var(--ye-white);
-  --color-white-secondary: var(--ye-white-solid);
+  --ye-amber: var(--color-warning);
+  --ye-valid: var(--color-valid);
+  --ye-invalid: var(--color-invalid);
+  --ye-ease: var(--transition-base);
+  --color-black: var(--color-dark);
+  --color-white: var(--color-light);
+  --color-white-secondary: var(--color-block-light);
   --color-light-grey: var(--ye-gray);
   --color-light-grey-secondary: var(--ye-gray-muted);
-  --color-yellow: var(--ye-amber);
-  --color-valid: var(--ye-valid);
-  --color-invalid: var(--ye-invalid);
-  --transition-dur-and-func: var(--ye-ease);
-
-  /* layout spacing */
+  --color-yellow: var(--color-warning);
+  --transition-dur-and-func: var(--transition-base);
   --ye-section-padding-sm: 56px;
   --ye-section-padding-md: 88px;
   --ye-section-padding-lg: 132px;
-  /* generic section padding token for most blocks */
   --ye-section-padding: var(--ye-section-padding-md);
-
-  /* base radii */
   --ye-radius-sm: 18px;
   --ye-radius-md: 24px;
   --ye-radius-lg: 36px;
-
-  /* component radii (aliased to base) */
   --ye-radius-card-sm: var(--ye-radius-sm);
   --ye-radius-card-md: var(--ye-radius-md);
   --ye-radius-card-lg: var(--ye-radius-lg);
-
-  /* gaps */
   --ye-gap-xs: 8px;
   --ye-gap-sm: 16px;
   --ye-gap-md: 24px;

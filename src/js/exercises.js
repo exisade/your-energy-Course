@@ -137,7 +137,7 @@ async function renderExercisesList() {
 }
 
 function createExerciseCardMarkup(ex) {
-  const rating = (ex.rating || 0).toFixed(1);
+  const rating = (ex.rating || 0).toFixed(2);
   const burned = ex.burnedCalories ?? '--';
   const time = ex.time ?? '--';
   const bodyPart = ex.bodyPart || '';
@@ -171,22 +171,21 @@ function createExerciseCardMarkup(ex) {
           <h3 class="card__title">${ex.name}</h3>
         </div>
 
-        <div class="card__block-info">
-          <p class="card__text-info">
-            <span>Burned calories:</span>
-            ${burned} / ${time} min
-          </p>
-          ${
-            bodyPart
-              ? `<p class="card__text-info"><span>Body part:</span> ${bodyPart}</p>`
-              : ''
-          }
-          ${
-            target
-              ? `<p class="card__text-info"><span>Target:</span> ${target}</p>`
-              : ''
-          }
-        </div>
+              <div class="card__block-info">
+                <p class="card__text-info">
+                  <span>Burned calories:</span>${burned} / ${time} min
+                </p>
+                ${
+                  bodyPart
+                    ? `<p class="card__text-info"><span>Body part:</span>${bodyPart}</p>`
+                    : ''
+                }
+                ${
+                  target
+                    ? `<p class="card__text-info"><span>Target:</span>${target}</p>`
+                    : ''
+                }
+              </div>
       </div>
     </li>
   `;

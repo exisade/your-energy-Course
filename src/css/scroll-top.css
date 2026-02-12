@@ -18,7 +18,9 @@
 }
 
 .scroll__go-top--show,
-.ye-scroll-top--show { display: block; }
+.ye-scroll-top--show {
+  display: block;
+}
 
 @media (min-width: 768px) {
   .ye-scroll-top,
@@ -45,7 +47,10 @@
 }
 
 @media (min-width: 768px) {
-  .scroll__icon { width: 25px; height: 25px; }
+  .scroll__icon {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .ye-scroll-top:hover .scroll__icon,

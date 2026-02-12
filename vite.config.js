@@ -9,7 +9,7 @@ export default defineConfig(({ command }) => {
     define: {
       [command === 'serve' ? 'global' : '_global']: {},
     },
-    base: '/your-energy-Course/',  // ← ВИПРАВТЕ ТУТ
+    base: '/your-energy-Course/',  
     root: 'src',
     build: {
       sourcemap: true,

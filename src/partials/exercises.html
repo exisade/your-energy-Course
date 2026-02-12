@@ -1,17 +1,17 @@
-<section class="ye-workouts section">
-  <div class="ye-workouts-bar exersices__container container">
-    <h2 class="ye-workouts-heading exersices__title">
+<section class="ye-workouts exercises__content section">
+  <div class="ye-workouts-bar exersices__container exercises__content__header container">
+    <h2 class="ye-workouts-heading exersices__title exercises__content__header-title">
       Exercises<span class="exersices__span hidden"><span>&sol;</span></span>
       <a class="exersices__text hidden"></a>
     </h2>
-    <div class="ye-workouts-toolbar exersices__search-btn-wrap">
-      <form class="ye-search-form search__form hidden">
+    <div class="ye-workouts-toolbar exersices__search-btn-wrap exercises__content__header-top">
+      <form class="ye-search-form search__form exercises__content__header-search hidden">
         <input class="ye-search-field search__input search" type="text" placeholder="Search" />
         <button class="ye-search-btn search__button" type="button">
           <svg class="search__icon" width="18" height="18"><use href="./img/sprite.svg#icon-search"></use></svg>
         </button>
       </form>
-      <ul class="ye-filter-tabs exersices__list">
+      <ul class="ye-filter-tabs exersices__list exercises__content__header-filters">
         <li><button class="ye-tab exercises__btn btnFilters active" type="button">Muscles</button></li>
         <li><button class="ye-tab exercises__btn btnFilters" type="button">Body parts</button></li>
         <li><button class="ye-tab exercises__btn btnFilters" type="button">Equipment</button></li>
@@ -19,11 +19,11 @@
     </div>
   </div>
 
-  <div class="ye-workouts-layout quote-filters__container container">
-    <aside class="ye-sidebar aside__container">
+  <div class="ye-workouts-layout quote-filters__container exercises__content__main container">
+    <aside class="ye-sidebar aside__container exercises__content__main__aside">
       <ul class="ye-sidebar-list aside__container-list">
         <li>
-          <div class="ye-quote-box quote__container">
+          <div class="ye-quote-box quote__container exercises__content__main__aside__quote">
             <div class="ye-quote-icon aside-svg__circle">
               <svg class="aside__svg" width="20" height="20"><use href="./img/sprite.svg#icon-pedastrian"></use></svg>
             </div>
@@ -36,10 +36,10 @@
           </div>
         </li>
         <li>
-          <div class="ye-sidebar-img"></div>
+          <div class="ye-sidebar-img exercises__content__main__aside__image"></div>
         </li>
         <li>
-          <div class="aside__white-card">
+          <div class="aside__white-card exercises__content__main__aside__norm">
             <div class="white-card-svg__wrapper">
               <svg class="aside__white-card-svg" width="20" height="20"><use href="./img/sprite.svg#icon-gym"></use></svg>
             </div>
@@ -53,9 +53,9 @@
       </ul>
     </aside>
 
-    <div class="ye-workouts-main filters__container">
-      <ul class="ye-cards-list filters__list js-list"></ul>
-      <div id="pagination-numbers" class="pagination"></div>
+    <div class="ye-workouts-main filters__container exercises__content__main__cards-container">
+      <ul class="ye-cards-list filters__list exercises__content__main__cards js-list"></ul>
+      <div id="pagination-numbers" class="pagination exercises__pagination"></div>
     </div>
   </div>
 </section>
