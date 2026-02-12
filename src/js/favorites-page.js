@@ -1,4 +1,7 @@
 import { getFavorites, removeFavorite } from './favorites.js';
+import spriteUrl from '../img/sprite.svg';
+import trashIconUrl from '../img/svg/trash.svg';
+import workoutIconUrl from '../img/svg/workout.svg';
 
 const listEl = document.querySelector('.favorites__list.js-list');
 const paginationEl = document.querySelector('.js-favorites-pagination');
@@ -115,23 +118,21 @@ function renderFavoritesList(favorites) {
               <div class="fav-card__meta">
                 <span class="card__badge">WORKOUT</span>
                 <button class="fav-card__delete" type="button" aria-label="Remove from favorites" title="Remove from favorites">
-                  <img class="fav-card__delete-icon" src="./img/svg/trash-icon.svg" alt="" aria-hidden="true" />
+                  <img class="fav-card__delete-icon" src="${trashIconUrl}" alt="" aria-hidden="true" />
                 </button>
               </div>
 
               <button class="card__btn" type="button" data-id="${ex._id}">
                 Start
                 <svg class="card__btn-arrow" width="16" height="16">
-                  <use href="./img/sprite.svg#icon-arrow"></use>
+                  <use href="${spriteUrl}#icon-arrow"></use>
                 </svg>
               </button>
             </div>
 
             <div class="card__wrap-title">
               <div class="card__title-svg">
-                <svg width="20" height="20">
-                  <use href="./img/sprite.svg#icon-food-24-filled"></use>
-                </svg>
+                <img src="${workoutIconUrl}" alt="" aria-hidden="true" />
               </div>
               <h3 class="card__title">${ex.name}</h3>
             </div>

@@ -1,6 +1,9 @@
 // exercises.js
 import { getFilters, getExercises } from './api.js';
 import { updatePaginationData } from './pagination.js';
+import spriteUrl from '../img/sprite.svg';
+import workoutIconUrl from '../img/svg/workout.svg';
+import starIconUrl from '../img/svg/star.svg';
 
 const cardsContainer = document.querySelector('.filters__list.js-list');
 const searchWrapper = document.querySelector('.search__form');
@@ -185,23 +188,19 @@ function createExerciseCardMarkup(ex) {
           <span class="card__badge">WORKOUT</span>
           <span class="card__rating">
             ${rating}
-            <svg class="card__rating-star" width="18" height="18">
-              <use href="./img/sprite.svg#icon-star-rating"></use>
-            </svg>
+            <img class="card__rating-star" src="${starIconUrl}" alt="" aria-hidden="true" />
           </span>
           <button class="card__btn" type="button" data-id="${ex._id}">
             Start
             <svg class="card__btn-arrow" width="16" height="16">
-              <use href="./img/sprite.svg#icon-arrow"></use>
+              <use href="${spriteUrl}#icon-arrow"></use>
             </svg>
           </button>
         </div>
 
         <div class="card__wrap-title">
           <div class="card__title-svg">
-            <svg width="20" height="20">
-              <use href="./img/sprite.svg#icon-food-24-filled"></use>
-            </svg>
+            <img src="${workoutIconUrl}" alt="" aria-hidden="true" />
           </div>
           <h3 class="card__title">${ex.name}</h3>
         </div>

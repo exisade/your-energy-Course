@@ -327,6 +327,44 @@
   width: 100%;
 }
 
+@media (max-width: 767px) {
+  .favorites__list .fav-filters__item-card {
+    width: 335px;
+    max-width: 100%;
+    min-height: 141px;
+    margin-right: auto;
+  }
+
+  .favorites__list .fav-filters__item-card .card__wrap {
+    height: 141px;
+    min-height: 141px;
+    padding: 14px 16px 12px;
+  }
+
+  .favorites__list .fav-filters__item-card .card__block-btn {
+    margin-bottom: 10px;
+  }
+
+  .favorites__list .fav-filters__item-card .card__wrap-title {
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .favorites__list .fav-filters__item-card .card__block-info {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .favorites__list .fav-filters__item-card .card__text-info {
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
 .fav-card__meta {
   display: inline-flex;
   align-items: center;

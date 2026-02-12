@@ -1,5 +1,6 @@
 import { getExerciseById, rateExercise } from './api.js';
 import { isInFavorites, toggleFavorite } from './favorites.js';
+import starIconUrl from '../img/svg/star.svg';
 
 let modalContainer = null;
 let currentExercise = null;
@@ -218,9 +219,7 @@ function renderStars(rating) {
     if (index < roundedStars && (!hasHalfStar || index < fullStars)) {
       starsMarkup += `
         <span class="modal__star modal__star--full" aria-hidden="true">
-          <svg width="18" height="18">
-            <use href="./img/sprite.svg#icon-star-rating"></use>
-          </svg>
+          <img src="${starIconUrl}" alt="" aria-hidden="true" />
         </span>
       `;
       continue;
@@ -229,12 +228,8 @@ function renderStars(rating) {
     if (index === fullStars && hasHalfStar) {
       starsMarkup += `
         <span class="modal__star modal__star--half" aria-hidden="true">
-          <svg class="modal__star-base" width="18" height="18">
-            <use href="./img/sprite.svg#icon-star-rating"></use>
-          </svg>
-          <svg class="modal__star-fill" width="18" height="18">
-            <use href="./img/sprite.svg#icon-star-rating"></use>
-          </svg>
+          <img class="modal__star-base" src="${starIconUrl}" alt="" aria-hidden="true" />
+          <img class="modal__star-fill" src="${starIconUrl}" alt="" aria-hidden="true" />
         </span>
       `;
       continue;
@@ -242,9 +237,7 @@ function renderStars(rating) {
 
     starsMarkup += `
       <span class="modal__star modal__star--empty" aria-hidden="true">
-        <svg width="18" height="18">
-          <use href="./img/sprite.svg#icon-star-rating"></use>
-        </svg>
+        <img src="${starIconUrl}" alt="" aria-hidden="true" />
       </span>
     `;
   }

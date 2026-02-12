@@ -163,22 +163,29 @@
   border-radius: 1px;
 }
 
-.modal__star svg {
+.modal__star svg,
+.modal__star img {
   width: 18px;
   height: 18px;
   border-radius: 1px;
+  display: block;
+  object-fit: contain;
 }
 
-.modal__star--full svg {
+.modal__star--full svg,
+.modal__star--full img {
   fill: #eea10c;
 }
 
-.modal__star--empty svg {
+.modal__star--empty svg,
+.modal__star--empty img {
   fill: rgba(238, 161, 12, 0.24);
+  opacity: 0.24;
 }
 
 .modal__star--half .modal__star-base {
   fill: rgba(238, 161, 12, 0.24);
+  opacity: 0.24;
 }
 
 .modal__star--half .modal__star-fill {

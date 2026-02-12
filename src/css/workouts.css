@@ -668,7 +668,8 @@
 .card__rating-star {
   width: 18px;
   height: 18px;
-  fill: var(--color-warning);
+  display: block;
+  object-fit: contain;
 }
 
 .card__btn {
@@ -713,10 +714,13 @@
   flex-shrink: 0;
 }
 
-.card__title-svg svg {
+.card__title-svg svg,
+.card__title-svg img {
   fill: currentColor;
   width: 16px;
   height: 16px;
+  display: block;
+  object-fit: contain;
 }
 
 .card__title {
