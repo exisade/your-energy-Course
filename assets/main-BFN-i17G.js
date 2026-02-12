@@ -16,7 +16,7 @@
             <p class="filters__text-first">${a.filter}</p>
           </div>
         </li>
-      `).join(""),$(1,t.totalPages||1)}catch(t){console.error(t),o.innerHTML=""}}async function st(){if(d){tt(),k(),o&&o.classList.add("filters__list--exercises");try{const t={page:u,limit:10},e=it();t[e]=d,l&&l.length>=2&&(t.keyword=l);const a=await W(t),r=a.results||[];if(!r.length){o.innerHTML="",$(1,1);return}o.innerHTML=r.map(s=>rt(s)).join(""),$(u,a.totalPages||1)}catch(t){console.error(t),o.innerHTML=""}}}function rt(t){const e=(t.rating||0).toFixed(1),a=t.burnedCalories??"--",r=t.time??"--",s=t.bodyPart||"",i=t.target||"";return`
+      `).join(""),$(1,t.totalPages||1)}catch(t){console.error(t),o.innerHTML=""}}async function st(){if(d){tt(),k(),o&&o.classList.add("filters__list--exercises");try{const t={page:u,limit:10},e=it();t[e]=d,l&&l.length>=2&&(t.keyword=l);const a=await W(t),r=a.results||[];if(!r.length){o.innerHTML="",$(1,1);return}o.innerHTML=r.map(s=>rt(s)).join(""),$(u,a.totalPages||1)}catch(t){console.error(t),o.innerHTML=""}}}function rt(t){const e=(t.rating||0).toFixed(2),a=t.burnedCalories??"--",r=t.time??"--",s=t.bodyPart||"",i=t.target||"";return`
     <li class="filters__item-card exercise-card-item" data-id="${t._id}">
       <div class="card__wrap">
         <div class="card__block-btn">
@@ -44,14 +44,13 @@
           <h3 class="card__title">${t.name}</h3>
         </div>
 
-        <div class="card__block-info">
-          <p class="card__text-info">
-            <span>Burned calories:</span>
-            ${a} / ${r} min
-          </p>
-          ${s?`<p class="card__text-info"><span>Body part:</span> ${s}</p>`:""}
-          ${i?`<p class="card__text-info"><span>Target:</span> ${i}</p>`:""}
-        </div>
+              <div class="card__block-info">
+                <p class="card__text-info">
+                  <span>Burned calories:</span>${a} / ${r} min
+                </p>
+                ${s?`<p class="card__text-info"><span>Body part:</span>${s}</p>`:""}
+                ${i?`<p class="card__text-info"><span>Target:</span>${i}</p>`:""}
+              </div>
       </div>
     </li>
   `}function it(){return v==="Muscles"?"muscles":v==="Body parts"?"bodypart":v==="Equipment"?"equipment":"muscles"}document.addEventListener("click",t=>{if(t.target.classList.contains("exercises-title__base--link")){d=null,l="",u=1,m="categories",p();return}const e=t.target.closest(".filters__item");!e||!e.dataset.category||(d=e.dataset.category,u=1,l="",m="exercises",p())});function nt(t){v=t,d=null,l="",u=1,m="categories",p()}function H(t){d&&(l=t.trim().toLowerCase(),u=1,m="exercises",p())}function N(t){u=t,p()}const j=document.querySelector(".search");function ot(t,e=500){let a;return(...r)=>{clearTimeout(a),a=setTimeout(()=>t(...r),e)}}function ct(){if(!j)return;const t=ot(e=>{const a=e.target.value.trim().toLowerCase();if(!a){H("");return}a.length<2||H(a)},600);j.addEventListener("input",t)}const K="favorites";function lt(t){try{const e=JSON.parse(t);return Array.isArray(e)?e:[]}catch{return[]}}function L(){const t=localStorage.getItem(K)||"[]";return lt(t).filter(e=>e&&e._id)}function dt(t){localStorage.setItem(K,JSON.stringify(t)),window.dispatchEvent(new CustomEvent("favorites:changed",{detail:{favorites:t}}))}function ut(t){return t?L().some(e=>e._id===t):!1}function ft(t){if(!t||!t._id)return{favorites:L(),isFavorite:!1};const e=L(),a=e.some(s=>s._id===t._id),r=a?e.filter(s=>s._id!==t._id):[...e,t];return dt(r),{favorites:r,isFavorite:!a}}let n=null,_=null,h=null;function mt(){n=document.createElement("div"),n.className="modal-overlay",n.style.display="none",document.body.appendChild(n),document.addEventListener("click",async t=>{if(t.target.classList.contains("card__btn")){const a=t.target.dataset.id;await B(a);return}const e=t.target.closest(".exercise-card-item[data-id]");if(e){const a=e.dataset.id;a&&await B(a)}}),n.addEventListener("click",t=>{(t.target===n||t.target.classList.contains("modal__close"))&&P(),t.target.classList.contains("modal__give-rating")&&pt();const e=t.target.closest&&t.target.closest(".modal__add-favorite");if(e&&_){const{isFavorite:a}=ft(_);e.dataset.action=a?"remove":"add",e.innerHTML=`
@@ -158,7 +157,7 @@
       <li class="favorites__empty">
         It appears that you haven't added any exercises to your favorites yet. To get started, you can add exercises that you like to your favorites for easier access in the future.
       </li>
-    `;return}y.innerHTML=t.map(e=>{const a=(e.rating||0).toFixed(1),r=e.burnedCalories??"--",s=e.time??"--",i=e.bodyPart||"",f=e.target||"";return`
+    `;return}y.innerHTML=t.map(e=>{const a=(e.rating||0).toFixed(2),r=e.burnedCalories??"--",s=e.time??"--",i=e.bodyPart||"",f=e.target||"";return`
           <li class="fav-filters__item-card exercise-card-item" data-id="${e._id}">
             <div class="card__wrap">
               <div class="card__block-btn">
@@ -188,13 +187,12 @@
 
               <div class="card__block-info">
                 <p class="card__text-info">
-                  <span>Burned calories:</span>
-                  ${r} / ${s} min
+                  <span>Burned calories:</span>${r} / ${s} min
                 </p>
-                ${i?`<p class="card__text-info"><span>Body part:</span> ${i}</p>`:""}
-                ${f?`<p class="card__text-info"><span>Target:</span> ${f}</p>`:""}
+                ${i?`<p class="card__text-info"><span>Body part:</span>${i}</p>`:""}
+                ${f?`<p class="card__text-info"><span>Target:</span>${f}</p>`:""}
               </div>
             </div>
           </li>
         `}).join("")}}function ht(){V(),X(t=>{nt(t)}),p(),ct(),Z(),mt(),vt()}ht();
-//# sourceMappingURL=main-BB_9n-PC.js.map
+//# sourceMappingURL=main-BFN-i17G.js.map
